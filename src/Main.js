@@ -1,27 +1,27 @@
-const express = require('express');
-const app = require('./server'); // Import the Express server module
-
-const PORT = 3000;
+const app = require('./server'); // Import the Express app from server.js
 
 /**
- * Main file to start the Express server.
- * 
- * @file Entry point for the Express server application
- * @requires express
- * @requires server
+ * The port number for the server to listen on.
+ * Defaults to 3000 unless overridden by an environment variable.
  */
+const PORT = process.env.PORT || 4000;
 
 /**
- * Starts the Express server and listens on the specified port.
- * 
- * @constant {number} PORT - The port on which the server will listen.
- * @example
- * // Run the server
- * node main.js
- * 
- * // Output:
- * Server running at http://localhost:3000
+ * Start the server and listen on the defined port.
+ * Logs a message confirming the server is running.
  */
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
+});
+
+/**
+ * Gracefully handle errors such as 'EADDRINUSE' (port already in use).
+ */
+server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+        console.error(`Error: Port ${PORT} is already in use. Please free the port and try again.`);
+        process.exit(1);
+    } else {
+        throw err; // Re-throw other errors
+    }
 });
