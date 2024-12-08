@@ -6,7 +6,7 @@ const PORT = 3000;
 /**
  * Main file to start the Express server.
  * 
- * @file Entry point for the Express server application.
+ * @file Entry point for the Express server application
  * @requires express
  * @requires server
  */
